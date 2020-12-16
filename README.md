@@ -4,7 +4,7 @@ PyInvisibleGUI is a mock-up module that overrides[PySimpleGUI](https://github.co
 This is an ideal solution for programs that open a GUI screen for the user to set up a certain set of parameters and then execute something. With PyInvisibleGUI, the program can load a preconfigured setting of the GUI and immediately starts to execute. All output sent to Multiline Elements will appears in stdout (via `print`).
 
 ## Usage
-### Integrating into your code
+### Integration in your code
 Instead of:
 ```
 import pysimplegui
@@ -17,6 +17,7 @@ else:
     import MySimpleGUI as sg
 ```
 
+### System-dependent activation
 The flag `terminal_mode` can be anything. You can set it manually or make is system-dependent, such as:
 
 ```
@@ -36,6 +37,8 @@ def is_raspbian():
 terminal_mode = is_raspbian()
 ```
 
-In this example, the code autoamtically sets terminal_mode to True if running in Raspberry Pi, and the code will run without loading PySimpleGUI and generating costly GUI elements. (RPi can definintely run GUI, but this way you save a lot of resources).
+In this example, the code autoamtically sets `terminal_mode` to True if running in Raspberry Pi, and the code will run without loading PySimpleGUI and generating costly GUI elements. (Obsiously, RPi runs GUI but you can save a lot of ram/cpu resources running GUI-less).
 
-That's it! The code will run the same but without creating any GUI. All the Elements still contain the same values and `update()` will store new values in them.
+### Loading preconfigured settings
+You would probably want to have some control over the values of the GUI. The way to do this is using the routines of save/load settings. Check out [example](https://pysimplegui.readthedocs.io/en/latest/cookbook/#recipe-save-and-load-program-settings) in the PysimpleGUI Cookbook or the Demo.py file included here.
+That's it!! The code will run the same but without creating any GUI. All the Elements still contain the same values and `update()` will store new values in them.
