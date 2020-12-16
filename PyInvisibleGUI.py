@@ -76,7 +76,7 @@ class Window(CleverDict):
         super().__init__(ele)
         self.TKroot = self.TKRoot()
         print(
-            f"Module {Path(__file__).stem} is activated, no GUI will show (press Ctrl+c to break).\n"
+            f"Module {Path(__file__).stem} is activated, no GUI will show (press Ctrl+c to break event loop).\n"
             f"Total GUI elements registered: {len(ele)}."
         )
         return None
