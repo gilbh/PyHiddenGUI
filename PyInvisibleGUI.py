@@ -11,14 +11,21 @@ Notes:
     There is no treatment for layout. Elements are recorded in their intiialization only.
 """
 
-from sys import exit
+from sys import exit, argv
 from time import sleep
 from pathlib import Path
+from traceback import format_stack
 
 from cleverdict import CleverDict
 from ipdb import set_trace  # noqa: F401
 
-from gsysos import get_func_name, get_func_name_inspect
+
+def get_func_name():
+    main_file = argv[0]
+    stack = '\n'.join([l2.strip().split(',', 1)[1] for l2 in format_stack() if main_file in l2][1:])
+    stack = stack.split('.')[1].split('(')[0].strip()
+
+    return stack
 
 
 class ElementObject:
@@ -109,10 +116,7 @@ class Window(CleverDict):
 
 def init_ele(args, kwargs, ele_from_alias=None):
     if not (ele_type := ele_from_alias):
-        if __name__ == "__main__":
-            ele_type = get_func_name_inspect()
-        else:
-            ele_type = get_func_name()
+        ele_type = get_func_name()
     # an element is created only if it has a 'key' value
     if kwargs.get('key'):
         ele_val = ''
@@ -199,12 +203,3 @@ def {e}(*args, **kwargs):
     )
 
 ele = {}
-
-"""
-# For basic testing
-if __name__ == "__main__":
-    InputText(  # noqa: F401
-        'hello', size=(6, 1), key='ele_symbol',
-    )
-    w = Window(ele)
-"""
