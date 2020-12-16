@@ -1,5 +1,5 @@
 # PyInvisibleGUI
-**PyInvisibleGUI** is a mock-up module that overrides [PySimpleGUI](https://github.com/PySimpleGUI/PySimpleGUI){:target="_blank"} and [MySimpleGUI](https://github.com/salabim/MySimpleGUI).
+**PyInvisibleGUI** is a mock-up module that overrides [PySimpleGUI](https://github.com/PySimpleGUI/PySimpleGUI){target="_blank"} and [MySimpleGUI](https://github.com/salabim/MySimpleGUI).
 
 It allows you to run a GUI program in a text-only terminal or without consuming memory/cpu. Put differently, **PyInvisibleGUI** transparently runs a GUI app as a CLI and GUI-less command.
 
