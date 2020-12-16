@@ -3,7 +3,7 @@
 
 It allows you to run a GUI program in a text-only terminal or without consuming memory/cpu. Put differently, **PyInvisibleGUI** transparently runs a GUI app as a CLI and GUI-less command.
 
-This is an ideal solution for programs that open a GUI screen for the user to set up a certain set of parameters and then execute something. With **PyInvisibleGUI**, the program can load a preconfigured setting of the GUI and immediately start to execute. All updates to Multiline elements will appears in stdout (via `print`).
+This is an ideal solution for programs that open a GUI screen for the user to set up a certain set of parameters and then execute something. With **PyInvisibleGUI**, the program can load a preconfigured setting of the GUI and immediately start the execution. All updates to Multiline elements will appears in stdout (via `print`).
 
 The code will run the same but without creating any GUI. You are not required to change anything in the code and you can switch back and forth between **PySimpleGUI** and **PyInvisibleGUI** seamlessly. All the elements have the same values and are retrievable using `sg['element_name'].get()` or `sg.element_name.get()`, and similarly updated with the method `update()`, just like **PySimpleGUI**.
 
