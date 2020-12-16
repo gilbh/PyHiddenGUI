@@ -14,7 +14,7 @@ You can install PyInvisibleGUI by downloading the file [PyInvisibleGUI.py](https
 ### Integration in your code
 Instead of:
 ```
-import pysimplegui
+import PySimpleGUI
 ```
 use:
 ```
@@ -44,7 +44,7 @@ def is_raspbian():
 terminal_mode = is_raspbian()
 ```
 
-In this example, the code automatically sets `terminal_mode` to True if running in Raspberry Pi, and the code will run without PySimpleGUI and without generating costly GUI elements. (Obviously RPi can run GUI, but you can save a lot of ram/cpu resources running apps as GUI-less).
+In this example, the code automatically sets `terminal_mode` to True if running in Raspberry Pi, and the code will run without *PySimpleGUI* and without generating costly GUI elements. (Obviously RPi can run GUI, but you can save a lot of ram/cpu resources running apps as GUI-less).
 
 ### Loading preconfigured settings
 You would probably want to have some control over the values of the GUI.
