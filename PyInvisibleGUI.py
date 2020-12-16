@@ -6,22 +6,25 @@ Project start date: Thurs 11/19/2020
 @author: Gil Ben-Herut
 
 A GUI-less mockup for PySimpleGUI/MySimpleGUI
+
+Notes:
+    There is no treatment for layout. Elements are recorded in their intiialization only.
 """
 
-import sys
-from sys import modules
-from ipdb import set_trace  # noqa: F401
-from importlib import reload
+from sys import exit
+from time import sleep
+from pathlib import Path
+
 from cleverdict import CleverDict
-reload(modules.get('mala', sys))
-from mala import (
-    get_func_name, get_func_name_inspect,
-)
+from ipdb import set_trace  # noqa: F401
+
+from gsysos import get_func_name, get_func_name_inspect
 
 
 class ElementObject:
 
-    def __init__(self, ele_type, ele_val):
+    def __init__(self, ele_key, ele_type, ele_val):
+        self.ele_key = ele_key
         self.ele_type = ele_type
         self.ele_val = ele_val
         return None
@@ -33,17 +36,21 @@ class ElementObject:
         return self.get()
 
     def __repr__(self):
-         set_trace(context=11)
-         _vars = {k: v for k, v in vars(self).items()}
-         return f"{self.__class__.__name__}({repr(_vars)})"
+        _vars = {k: v for k, v in vars(self).items()}
+        return f"{self.__class__.__name__}({repr(_vars)})"
 
     def update(self, *args, **kwargs):
         if args:
             new_val = args[0]
         else:
             new_val = kwargs.get('value')
+
+        # print(f"{self.ele_key}: {new_val}")
         if new_val:
             self.ele_val = new_val
+            if self.ele_type == 'Multiline':
+                print(f"{self.ele_key}: {new_val}")
+
         return None
 
     def set_focus(self, *args):
@@ -66,9 +73,12 @@ class Window(CleverDict):
             return None
 
     def __init__(self, *args, **kwargs):
-        # super().__init__(*args, **kwargs)
         super().__init__(ele)
         self.TKroot = self.TKRoot()
+        print(
+            f"Module {Path(__file__).stem} is activated, no GUI will show (press Ctrl+c to break).\n"
+            f"Total GUI elements registered: {len(ele)}."
+        )
         return None
 
     def maximize(self):
@@ -87,8 +97,11 @@ class Window(CleverDict):
         return None
 
     def read(self, timeout=0):
-        print('read_event')
-        return '__TIMEOUT__', self.items()
+        try:
+            sleep(0.001)
+        except KeyboardInterrupt:
+            exit()
+        return '__TIMEOUT__', {a: b.ele_val for a, b in self.items() if type(b) == ElementObject}
 
     def close(self):
         return None
@@ -117,7 +130,7 @@ def init_ele(args, kwargs, ele_from_alias=None):
             ele_val = kwargs['default']
 
         # storing element's essential data: name (as key), type, value
-        ele[kwargs['key']] = ElementObject(ele_type, ele_val)
+        ele[kwargs['key']] = ElementObject(kwargs['key'], ele_type, ele_val)
     return None
 
 
@@ -187,9 +200,11 @@ def {e}(*args, **kwargs):
 
 ele = {}
 
+"""
 # For basic testing
 if __name__ == "__main__":
-    InputText(
+    InputText(  # noqa: F401
         'hello', size=(6, 1), key='ele_symbol',
     )
     w = Window(ele)
+"""
