@@ -5,7 +5,7 @@ It allows you to run a GUI program in a text-only terminal or without consuming 
 
 This is an ideal solution for programs that open a GUI screen for the user to set up a certain set of parameters and then execute something. With PyInvisibleGUI, the program can load a preconfigured setting of the GUI and immediately start to execute. All updates to Multiline Elements will appears in stdout (via `print`).
 
-The code will run the same but without creating any GUI. You are not required to change anything in the code and you can switch back and forth between PySimppleGUI and PyInvisibleGUI seamlessly. All the Elements will contain the same values and `update()` will store new values in them.
+The code will run the same but without creating any GUI. You are not required to change anything in the code and you can switch back and forth between PySimppleGUI and PyInvisibleGUI seamlessly. All the Elements have the same values and are retrievable using `sg['element_name'].get()` or `sg.element_name.get()`, and similarly updated with the method `update()`, just like PySimppleGUI.
 
 ## Installation
 You can install PyInvisibleGUI by downloading the file [PyInvisibleGUI.py](https://github.com/gilbh/PyInvisibleGUI/blob/main/PyInvisibleGUI.py) in this repository.
@@ -44,7 +44,7 @@ def is_raspbian():
 terminal_mode = is_raspbian()
 ```
 
-In this example, the code autoamtically sets `terminal_mode` to True if running in Raspberry Pi, and the code will run without loading PySimpleGUI and generating costly GUI elements. (Obsiously, RPi runs GUI but you can save a lot of ram/cpu resources running GUI-less).
+In this example, the code automatically sets `terminal_mode` to True if running in Raspberry Pi, and the code will run without loading PySimpleGUI and generating costly GUI elements. (Obviously RPi can run GUI but you can save a lot of ram/cpu resources running apps as GUI-less).
 
 ### Loading preconfigured settings
 You would probably want to have some control over the values of the GUI.
@@ -60,6 +60,6 @@ sg.Button('Run', key='button_key', metadata='auto_activate')
 
 PyInvisibleGUI will remember all the elements with `metadata='auto_activate'` and will send them pack as `event` values on each call to `window.read()`.
 
-This works sequencially for multiple Elements.
+This works for multiple Elements in a sequence. This means that the first element created with `metadata='auto_activate'` will be returned in the first `event` call.
 
 That's it. Would love to get your feedback on this.
