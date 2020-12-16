@@ -3,7 +3,8 @@ PyInvisibleGUI is a mock-up module that overrides[PySimpleGUI](https://github.co
 
 This is an ideal solution for programs that open a GUI screen for the user to set up a certain set of parameters and then execute something. With PyInvisibleGUI, the program can load a preconfigured setting of the GUI and immediately starts to execute. All output sent to Multiline Elements will appears in stdout (via `print`).
 
-## Integration
+## Usage
+### Integrating into your code
 Instead of:
 ```
 import pysimplegui
