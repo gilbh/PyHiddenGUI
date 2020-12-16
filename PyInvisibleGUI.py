@@ -8,7 +8,7 @@ Project start date: Thurs 11/19/2020
 A GUI-less mockup for PySimpleGUI/MySimpleGUI
 
 Notes:
-    There is no treatment for layout. Elements are recorded in their intiialization only.
+    There is no treatment for layout. Elements are recorded in their intialization only.
 """
 
 from sys import exit, argv
@@ -20,7 +20,12 @@ from cleverdict import CleverDict
 from ipdb import set_trace  # noqa: F401
 
 
-def get_func_name():
+def popup_quick_message(*args, **kwargs):
+    if args:
+        ps(f"popup_quick_message: {args}")
+
+
+def _get_func_name():
     main_file = argv[0]
     stack = '\n'.join([l2.strip().split(',', 1)[1] for l2 in format_stack() if main_file in l2][1:])
     stack = stack.split('.')[1].split('(')[0].strip()
@@ -52,11 +57,10 @@ class ElementObject:
         else:
             new_val = kwargs.get('value')
 
-        # print(f"{self.ele_key}: {new_val}")
         if new_val:
             self.ele_val = new_val
             if self.ele_type == 'Multiline':
-                print(f"{self.ele_key}: {new_val}")
+                ps(f"{self.ele_key}: {new_val}")
 
         return None
 
@@ -82,9 +86,9 @@ class Window(CleverDict):
     def __init__(self, *args, **kwargs):
         super().__init__(ele)
         self.TKroot = self.TKRoot()
-        print(
-            f"Module {Path(__file__).stem} is activated, no GUI will show (press Ctrl+c to break event loop).\n"
-            f"Total GUI elements registered: {len(ele)}."
+        ps(
+            f"Module {Path(__file__).stem} is activated, no GUI will show (press ctrl+c to break event loop).\n"
+            f"Total GUI elements registered: {len(ele)}"
         )
         return None
 
@@ -104,26 +108,46 @@ class Window(CleverDict):
         return None
 
     def read(self, timeout=0):
+        # ugly path for avoiding non-breakable infinite loop
         try:
             sleep(0.001)
         except KeyboardInterrupt:
+            ps('ctrl+c was pressed. breaking event loop.')
             exit()
-        return '__TIMEOUT__', {a: b.ele_val for a, b in self.items() if type(b) == ElementObject}
+
+        # for auto activation elements
+        event = ''
+        if auto_activate_ele:
+            event = auto_activate_ele.pop()
+        else:
+            event = '__TIMEOUT__'
+
+        values = {a: b.ele_val for a, b in self.items() if type(b) == ElementObject}
+
+        return event, values
 
     def close(self):
         return None
 
 
 def init_ele(args, kwargs, ele_from_alias=None):
+    # find type
     if not (ele_type := ele_from_alias):
-        ele_type = get_func_name()
-    # an element is created only if it has a 'key' value
-    if kwargs.get('key'):
+        ele_type = _get_func_name()
+
+    # find key
+    ele_key = kwargs.get('key')
+    # Button can get a key from the first parameter
+    if not ele_key and ele_type == 'Button' and args:
+        ele_key = args[0]
+
+    # an element is created only if it has key
+    if ele_key:
         ele_val = ''
         # finding the element's value
         if args:
             # in most elements value is passed in first parameter, but not in all
-            if ele_type == 'Combo':
+            if ele_type == 'Combo' and len(args) > 1:
                 ele_val = args[1]
             else:
                 ele_val = args[0]
@@ -134,13 +158,20 @@ def init_ele(args, kwargs, ele_from_alias=None):
             ele_val = kwargs['default']
 
         # storing element's essential data: name (as key), type, value
-        ele[kwargs['key']] = ElementObject(kwargs['key'], ele_type, ele_val)
+        ele[ele_key] = ElementObject(ele_key, ele_type, ele_val)
+
+        # set up auto activation for running the program as CLI
+        # store element in order to send as event on first call of window.read()
+        if kwargs.get('metadata') == 'auto_activate':
+            auto_activate_ele.append(ele_key)
+
     return None
 
 
 # Mockup for any function called in sg module that does not do anything.
 empty_func_list = (
     'theme',
+    'theme_list',
     'SetOptions',
     'HorizontalSeparator',
 )
@@ -178,6 +209,7 @@ ele_list = (
     'Image',
     'TabGroup',
     'Tab',
+    'FolderBrowse',
 )
 # setup a function definition for any element creation call.
 # Calls to init_ele which Will create an instance of ElementObject class.
@@ -192,6 +224,8 @@ def {e}(*args, **kwargs):
 
 ele_aliases = {
     'In': 'InputText',
+    'Input': 'InputText',
+    'B': 'Button',
 }
 for e in ele_aliases:
     exec(
@@ -203,3 +237,6 @@ def {e}(*args, **kwargs):
     )
 
 ele = {}
+auto_activate_ele = []
+# "ps" means "print to stdout". You can assign any output function.
+ps = print
