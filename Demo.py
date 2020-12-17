@@ -44,11 +44,13 @@ def load_settings(settings_file, default_settings):
     try:
         with open(settings_file, 'r') as f:
             settings = jsonload(f)
-    except FileNotFoundError as e:
+    except FileNotFoundError:
+        """
         sg.popup_quick_message(
             f'exception {e}', 'No settings file found... will create one for you',
             keep_on_top=True, background_color='red', text_color='white'
         )
+        """
         settings = default_settings
         save_settings(settings_file, settings, None)
 
