@@ -56,7 +56,7 @@ The way to do this is with the save/load settings routines. Check out [example](
 ### Activating your code without GUI
 In some cases, you would need to emulate clicking a button element in the window in order to activate the main routine in your program. For this, add the keyword parameter `metadata='auto_activate'` in the element creation, such as here:
 ```
-sg.Button('Run', key='button_key', **metadata='auto_activate'**)
+sg.Button('Run', key='button_key', *metadata='auto_activate'*)
 ```
 
 **PyInvisibleGUI** will remember all the elements with `metadata='auto_activate'` and will send them back as the return value of `event` on each call to `window.read()`.
