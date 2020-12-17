@@ -184,11 +184,11 @@ def {f}(*args, **kwargs):
     )
 
 # Mockup for any const (variable really) called in sg module that does not anything.
-empty_consts_lst = (
+empty_consts_list = (
     'RELIEF_SUNKEN',
     'WIN_CLOSED',
 )
-for c in empty_consts_lst:
+for c in empty_consts_list:
     exec(
         f"""
 {c} = None
@@ -196,7 +196,7 @@ for c in empty_consts_lst:
     )
 
 # list of mockup GUI elements
-ele_list = (
+elements_list = (
     'Text',
     'InputText',
     'Button',
@@ -213,7 +213,7 @@ ele_list = (
 )
 # setup a function definition for any element creation call.
 # Calls to init_ele which Will create an instance of ElementObject class.
-for e in ele_list:
+for e in elements_list:
     exec(
         f"""
 def {e}(*args, **kwargs):
@@ -222,16 +222,16 @@ def {e}(*args, **kwargs):
         """
     )
 
-ele_aliases = {
+elements_aliases = {
     'In': 'InputText',
     'Input': 'InputText',
     'B': 'Button',
 }
-for e in ele_aliases:
+for e in elements_aliases:
     exec(
         f"""
 def {e}(*args, **kwargs):
-    init_ele(args, kwargs, ele_from_alias=ele_aliases['{e}'])
+    init_ele(args, kwargs, ele_from_alias=elements_aliases['{e}'])
     return None
         """
     )
