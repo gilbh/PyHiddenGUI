@@ -42,7 +42,13 @@ class ElementObject:
         return None
 
     def get(self):
-        return self.ele_val
+        if self.ele_type == 'TabGroup':
+            # TablGroup might store a 2D list of values, but get() should return
+            #   the value of the elected Tab. Here it sends the first value.
+            res = self.ele_val[0][0]
+        else:
+            res = self.ele_val
+        return res
 
     def __str__(self):
         return self.get()
@@ -142,8 +148,8 @@ def init_ele(args, kwargs, ele_from_alias=None):
         ele_key = args[0]
 
     # an element is created only if it has key
+    ele_val = ''
     if ele_key:
-        ele_val = ''
         # finding the element's value
         if args:
             # in most elements value is passed in first parameter, but not in all
@@ -164,11 +170,15 @@ def init_ele(args, kwargs, ele_from_alias=None):
         # store element in order to send as event on first call of window.read()
         if kwargs.get('metadata') == 'auto_activate':
             auto_activate_ele.append(ele_key)
+    else:
+        # there is no key so no elements is created,
+        # but sending back the value for parameter in container element.
+        ele_val = args[0]
 
-    return None
+    return ele_val
 
 
-# Mockup for any function called in sg module that does not do anything.
+# list of mock-up for any function called in sg module that does not do anything.
 empty_func_list = (
     'theme',
     'theme_list',
@@ -183,19 +193,32 @@ def {f}(*args, **kwargs):
         """
     )
 
-# Mockup for any const (variable really) called in sg module that does not anything.
+# list of mock-up for any const (variable really) called in sg module that does not anything.
 empty_consts_list = (
     'RELIEF_SUNKEN',
     'WIN_CLOSED',
+    'GUI_THEME',
 )
 for c in empty_consts_list:
     exec(
         f"""
-{c} = None
+{c} = 0
         """
     )
 
-# list of mockup GUI elements
+# list of mock-up for any 3D list called in sg module that does not anything.
+# right now it is customized for a 'Button' value in LOOK_AND_FEEL_TABLE
+empty_3d_lists_list = (
+    'LOOK_AND_FEEL_TABLE',
+)
+for c in empty_3d_lists_list:
+    exec(
+        f"""
+{c} = (CleverDict({{'BUTTON': (0, )}}), )
+        """
+    )
+
+# list of mock-up GUI elements
 elements_list = (
     'Text',
     'InputText',
@@ -217,8 +240,7 @@ for e in elements_list:
     exec(
         f"""
 def {e}(*args, **kwargs):
-    init_ele(args, kwargs)
-    return None
+    return init_ele(args, kwargs)
         """
     )
 
