@@ -64,7 +64,7 @@ sg.Button('Run', key='button_key', **metadata='auto_activate'**)
 This works for multiple elements in a sequence. This means that the first element created with `metadata='auto_activate'` will be returned in the first `event` call.
 
 ## Bugs and Features
-The most common issue that might come up when running **PyInvisibleGUI** for the first time is having the code break because of unknown function calls and elements. The reason for this is that **PySimpleGUI** uses multiple names for common functions and elements, and I still did not include **all** of these into **PyInvisibleGUI**. Adding a function/element/constant, however, is easy: add the missing item to the respective tuples: either `empty_func_list`, `empty_consts_list `, or `elements_list`. Note that because different elements have specific behaviors, I creates `elements_aliases`, which is a dictionary that matches additional names to already existing elements (e.g., `Input` is just another alias for `InputText`).
+The most common issue that might come up when running **PyInvisibleGUI** for the first time is having the code break because of unknown function calls and elements. The reason for this is that **PySimpleGUI** uses multiple names for common functions and elements, and I still did not include all of these into **PyInvisibleGUI**. Adding a function/element/constant, however, is easy: just add the missing item to the respective tuples: either `empty_func_list`, `empty_consts_list `, or `elements_list`. Note that because different elements have specific behaviors, I creates `elements_aliases`, which is a dictionary that matches additional names to already existing elements (e.g., `Input` is just another alias for `InputText`).
 
 Or you can write me to add/fix something.
 
