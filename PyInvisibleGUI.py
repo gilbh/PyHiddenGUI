@@ -19,6 +19,8 @@ from traceback import format_stack
 from cleverdict import CleverDict
 from ipdb import set_trace  # noqa: F401
 
+from PySimpleGUI_consts import *  # noqa: F403, F401
+
 
 def popup_quick_message(*args, **kwargs):
     if args:
@@ -197,7 +199,6 @@ def {f}(*args, **kwargs):
 empty_consts_list = (
     'RELIEF_SUNKEN',
     'WIN_CLOSED',
-    'GUI_THEME',
 )
 for c in empty_consts_list:
     exec(
