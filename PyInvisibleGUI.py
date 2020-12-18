@@ -18,7 +18,6 @@ from traceback import format_stack
 
 from cleverdict import CleverDict
 from ipdb import set_trace  # noqa: F401
-
 from PySimpleGUI_consts import *  # noqa: F403, F401
 
 
@@ -204,18 +203,6 @@ for c in empty_consts_list:
     exec(
         f"""
 {c} = 0
-        """
-    )
-
-# list of mock-up for any 3D list called in sg module that does not anything.
-# right now it is customized for a 'Button' value in LOOK_AND_FEEL_TABLE
-empty_3d_lists_list = (
-    'LOOK_AND_FEEL_TABLE',
-)
-for c in empty_3d_lists_list:
-    exec(
-        f"""
-{c} = (CleverDict({{'BUTTON': (0, )}}), )
         """
     )
 

@@ -1,7 +1,7 @@
 # PyInvisibleGUI
 **PyInvisibleGUI** is a mock-up module that overrides [PySimpleGUI](https://github.com/PySimpleGUI/PySimpleGUI) and [MySimpleGUI](https://github.com/salabim/MySimpleGUI).
 
-**PyInvisibleGUI** transparently runs a GUI app as a CLI and GUI-less command. It allows you to run a GUI program in a text-only terminal or without consuming memory/cpu. Since **PyInvisibleGUI** overrides all the required variables and functions, there is no need to install any GUI library on the running platform (**PySimpleGUI**, tKinter, PyQt, etc.).
+**PyInvisibleGUI** transparently runs a GUI app as a CLI and GUI-less command. It allows you to run a GUI program in a text-only terminal or without consuming memory/cpu. Since **PyInvisibleGUI** overrides all the required variables and functions, there is **no need to install any GUI library on the running platform** (no need to install **PySimpleGUI**, Tkinter, PyQt, etc.).
 
 This is an ideal solution for programs that open a GUI screen for the user to set up a certain set of parameters and then execute something. With **PyInvisibleGUI**, the program can load a preconfigured setting of the GUI and immediately start the execution. All updates to Multiline elements will appears in stdout (via `print`).
 
