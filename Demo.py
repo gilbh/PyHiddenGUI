@@ -27,7 +27,12 @@ if text_mode:
     import PySimpleNoGUI as sg
     sg.silent = False
 else:
-    import PySimpleGUI as sg
+    try:
+        import PySimpleGUI as sg
+    except ModuleNotFoundError:
+        import PySimpleNoGUI as sg
+        sg.silent = False
+        no_PySimpleGUI_module = True
 
 from json import (load as jsonload, dump as jsondump)
 from os import path
@@ -48,14 +53,15 @@ def load_settings(settings_file, default_settings):
         with open(settings_file, 'r') as f:
             settings = jsonload(f)
     except FileNotFoundError:
-        if sg.__name__ == 'PySimpleGUI':
+        if sg.__name__ == 'PySimpleGUI' or no_PySimpleGUI_module:
             settings = default_settings
             save_settings(settings_file, settings, None)
         else:
             settings = None
             print(
                 "PLEASE SET `text_mode` TO `False` IN ORDER TO RUN THIS DEMO "
-                "FIRST TIME WITH GUI. SET UP THE MOCK-UP CONFIGURATIONS, THEN EXIT THE PROGRAM AND SET `text_mode` TO `True` TO TRY THE GUI-LESS MODE."
+                "FIRST TIME WITH GUI. SET UP THE MOCK-UP CONFIGURATIONS,"
+                "THEN EXIT THE PROGRAM AND SET `text_mode` TO `True` TO TRY THE GUI-LESS MODE."
             )
 
     return settings
@@ -130,7 +136,8 @@ def main():
             if sg.__name__ == 'PySimpleGUI':
                 print(
                     "\nNOW THAT THE GUI CONFIGURATION IS COMPLETE, SET `text_mode` TO `False` "
-                    "AND RUN AGAIN THIS PROGRAM. IT WILL EXECUTE THE DEMO WITH THE CONFIGURATIONS YOU SET IN THE GUI BUT THIS TIME WITHOUT CREATING A GUI."
+                    "AND RUN AGAIN THIS PROGRAM. IT WILL EXECUTE THE DEMO WITH THE CONFIGURATIONS "
+                    "YOU SET IN THE GUI BUT THIS TIME WITHOUT CREATING A GUI."
                 )
             break
 

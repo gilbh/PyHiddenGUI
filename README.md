@@ -1,16 +1,16 @@
 # PySimpleNoGUI
 **PySimpleNoGUI** is a mock-up module that overrides [PySimpleGUI](https://github.com/PySimpleGUI/PySimpleGUI) and [MySimpleGUI](https://github.com/salabim/MySimpleGUI).
 
-**PySimpleNoGUI** transparently runs a GUI app built with **PySimpleGUI** as a CLI program, without creating any graphical elements on the screen. It allows you to run a GUI program in a text-only terminal or without consuming memory/cpu. 
+**PySimpleNoGUI** transparently runs a GUI app built with **PySimpleGUI** as a CLI program, without creating any graphical elements on the screen. It allows you to run a GUI program in a text-only terminal and without consuming memory/cpu. 
 
-Since **PySimpleNoGUI** overrides all the required variables and functions, there is **no need to install any GUI library on the running platform** (no need to install **PySimpleGUI**, Tkinter, PyQt, etc.).
+Since **PySimpleNoGUI** overrides all required variables and functions, there is **no need to install any GUI library on the running platform** (no need to install **PySimpleGUI**, Tkinter, PyQt, etc.).
 
 This is an ideal solution for programs that open a GUI screen for the user to set up a certain set of parameters and then execute something. With **PySimpleNoGUI**, the program can load a preconfigured setting of the GUI and immediately start the execution. All updates to Multiline elements will appears in stdout (via `print`).
 
 The code will run the same but without creating any GUI. You are not required to change anything in the code and you can switch back and forth between **PySimpleGUI** and **PySimpleNoGUI** seamlessly. All the elements have the same values and are retrievable using `sg['element_name'].get()` or `sg.element_name.get()`, and similarly updated with the method `update()`, just like you do with **PySimpleGUI** and **MySimpleGUI**.
 
 ## Installation
-You can install **PySimpleNoGUI** by downloading the file [PySimpleNoGUI.py](https://github.com/gilbh/PySimpleNoGUI/blob/main/PySimpleNoGUI.py) in this repository.
+You can install **PySimpleNoGUI** by downloading the file [PySimpleNoGUI.py](https://github.com/gilbh/PySimpleNoGUI/blob/main/PySimpleNoGUI.py) from this repository.
 
 ## Usage
 ### Integration in your code
@@ -64,6 +64,9 @@ sg.Button('Run', key='button_key', <i>metadata='auto_activate'</i>)
 **PySimpleNoGUI** will remember all the elements with `metadata='auto_activate'` and will send them back as the return value of `event` on each call to `window.read()`.
 
 This works for multiple elements in a sequence. This means that the first element created with `metadata='auto_activate'` will be returned in the first `event` call.
+
+## To Do
+Right now the constants used in Tkinter and PySimpleGUI are statically defined. In order to keep up with future changes, it is desirable to add a dynamic import of these definitions: on first run, these will be downloaded from GitHub and written locally.
 
 ## Bugs and Features
 The most common issue that might come up when running **PySimpleNoGUI** for the first time is having the code break because of unknown function calls and elements. The reason for this is that **PySimpleGUI** uses multiple names for common functions and elements, and I still did not include all of these into **PySimpleNoGUI**. Adding a function/element/constant, however, is easy: just add the missing item to the respective tuples: either `empty_func_list`, `empty_consts_list `, or `elements_list`. Note that because different elements have specific behaviors, I creates `elements_aliases`, which is a dictionary that matches additional names to already existing elements (e.g., `Input` is just another alias for `InputText`).
