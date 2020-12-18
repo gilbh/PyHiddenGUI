@@ -1,7 +1,9 @@
 # PySimpleNoGUI
 **PySimpleNoGUI** is a mock-up module that overrides [PySimpleGUI](https://github.com/PySimpleGUI/PySimpleGUI) and [MySimpleGUI](https://github.com/salabim/MySimpleGUI).
 
-**PySimpleNoGUI** transparently runs a GUI app built with **PySimpleGUI** as a CLI program, without creating any graphical elements on the screen. It allows you to run a GUI program in a text-only terminal or without consuming memory/cpu. Since **PySimpleNoGUI** overrides all the required variables and functions, there is **no need to install any GUI library on the running platform** (no need to install **PySimpleGUI**, Tkinter, PyQt, etc.).
+**PySimpleNoGUI** transparently runs a GUI app built with **PySimpleGUI** as a CLI program, without creating any graphical elements on the screen. It allows you to run a GUI program in a text-only terminal or without consuming memory/cpu. 
+
+Since **PySimpleNoGUI** overrides all the required variables and functions, there is **no need to install any GUI library on the running platform** (no need to install **PySimpleGUI**, Tkinter, PyQt, etc.).
 
 This is an ideal solution for programs that open a GUI screen for the user to set up a certain set of parameters and then execute something. With **PySimpleNoGUI**, the program can load a preconfigured setting of the GUI and immediately start the execution. All updates to Multiline elements will appears in stdout (via `print`).
 
@@ -45,7 +47,7 @@ def is_raspbian():
 terminal_mode = is_raspbian()
 ```
 
-In this example, the code automatically sets `terminal_mode` to True if running in Raspberry Pi, and the code will run without **PySimpleGUI** and without generating costly GUI elements. (Obviously RPi can run GUI, but you can save a lot of ram/cpu resources by running apps as GUI-less).
+In this example, the code automatically sets `terminal_mode` to True if running in Raspberry Pi, and the code will run without **PySimpleGUI** and without generating costly GUI elements. (Obviously RPi can run GUI, but you can save a lot of ram/cpu resources by running apps as GUI-less. It will also run on a RPi Lite without any GUI libraries installed).
 
 ### Loading preconfigured settings
 You would probably want to have some control over the values of the GUI.
