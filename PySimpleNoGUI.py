@@ -93,10 +93,12 @@ class Window(CleverDict):
     def __init__(self, *args, **kwargs):
         super().__init__(ele)
         self.TKroot = self.TKRoot()
-        ps(
-            f"Module {Path(__file__).stem} is activated, no GUI will show (press ctrl+c to break event loop).\n"
-            f"Total GUI elements registered: {len(ele)}"
-        )
+        if not silent:
+            ps(
+                f"Module {Path(__file__).stem} is activated and no GUI will be created.\n"
+                f"Total GUI elements registered: {len(ele)}.\n"
+                "Press ctrl+c in case you need to break event loop.\n\n"
+            )
         return None
 
     def maximize(self):
@@ -148,8 +150,8 @@ def init_ele(args, kwargs, ele_from_alias=None):
     if not ele_key and ele_type == 'Button' and args:
         ele_key = args[0]
 
-    # an element is created only if it has key
     ele_val = ''
+    # an element is created only if it has key
     if ele_key:
         # finding the element's value
         if args:
@@ -173,8 +175,9 @@ def init_ele(args, kwargs, ele_from_alias=None):
             auto_activate_ele.append(ele_key)
     else:
         # there is no key so no elements is created,
-        # but sending back the value for parameter in container element.
-        ele_val = args[0]
+        # but if there is a value parameter was provided, send it back
+        if args:
+            ele_val = args[0]
 
     return ele_val
 
@@ -246,7 +249,8 @@ def {e}(*args, **kwargs):
         """
     )
 
+silent = True
 ele = {}
 auto_activate_ele = []
-# "ps" means "print to stdout". You can assign any output function.
+# "ps" stands for "print to stdout". You can assign any output function.
 ps = print

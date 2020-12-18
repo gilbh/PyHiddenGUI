@@ -9,20 +9,23 @@ This demo shows how to run a PySimpleGUI application in a text-only command line
 
 Notes:
 
-1) To switch between GUI and GUI-less, simply change the boolean flag: terminal_mode
+1) To switch between GUI and GUI-less, simply change the boolean flag: text_mode
 
 2) For auto activation of a button (or mmore than one) when running GUI-less,
-simpy add keyword parameters to Button Element:
+add this keyword parameters to a Button element:
 
-metadata='auto_activate'
+    metadata='auto_activate'
+
+3) To silence PySimpleNoGUI activation message, remove the following line:
+    sg.silent = False
 """
 
 
-# toggle terminal_mode to switch between GUI and GUI-less
-terminal_mode = True
-# terminal_mode = False
-if terminal_mode:
+# toggle text_mode flag in order to switch between GUI and GUI-less
+text_mode = False
+if text_mode:
     import PySimpleNoGUI as sg
+    sg.silent = False
 else:
     import PySimpleGUI as sg
 
@@ -45,14 +48,15 @@ def load_settings(settings_file, default_settings):
         with open(settings_file, 'r') as f:
             settings = jsonload(f)
     except FileNotFoundError:
-        """
-        sg.popup_quick_message(
-            f'exception {e}', 'No settings file found... will create one for you',
-            keep_on_top=True, background_color='red', text_color='white'
-        )
-        """
-        settings = default_settings
-        save_settings(settings_file, settings, None)
+        if sg.__name__ == 'PySimpleGUI':
+            settings = default_settings
+            save_settings(settings_file, settings, None)
+        else:
+            settings = None
+            print(
+                "PLEASE SET `text_mode` TO `False` IN ORDER TO RUN THIS DEMO "
+                "FIRST TIME WITH GUI. SET UP THE MOCK-UP CONFIGURATIONS, THEN EXIT THE PROGRAM AND SET `text_mode` TO `True` TO TRY THE GUI-LESS MODE."
+            )
 
     return settings
 
@@ -102,7 +106,7 @@ def create_main_window(settings):
 
 
 def run_demo(window):
-    print('\nRunning Demo with PySimpleNoGUI using loaded settings:')
+    print(f'\nRunning Demo with {sg.__name__} using loaded settings:')
     for key in SETTINGS_KEYS_TO_ELEMENT_KEYS:
         print(f"{key}: {window[SETTINGS_KEYS_TO_ELEMENT_KEYS[key]].get()}")
     print('\nFinished!')
@@ -110,6 +114,10 @@ def run_demo(window):
 
 def main():
     settings = load_settings(SETTINGS_FILE, DEFAULT_SETTINGS)
+
+    if not settings:
+        return None
+
     window = create_main_window(settings)
     update_settings_window(window, settings)
     while True:
@@ -119,6 +127,11 @@ def main():
             break
         if event == 'Run':
             run_demo(window)
+            if sg.__name__ == 'PySimpleGUI':
+                print(
+                    "\nNOW THAT THE GUI CONFIGURATION IS COMPLETE, SET `text_mode` TO `False` "
+                    "AND RUN AGAIN THIS PROGRAM. IT WILL EXECUTE THE DEMO WITH THE CONFIGURATIONS YOU SET IN THE GUI BUT THIS TIME WITHOUT CREATING A GUI."
+                )
             break
 
     save_settings(SETTINGS_FILE, settings, values)
