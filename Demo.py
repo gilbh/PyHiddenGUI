@@ -22,7 +22,7 @@ metadata='auto_activate'
 terminal_mode = True
 # terminal_mode = False
 if terminal_mode:
-    import PyInvisibleGUI as sg
+    import PySimpleNoGUI as sg
 else:
     import PySimpleGUI as sg
 
@@ -102,7 +102,7 @@ def create_main_window(settings):
 
 
 def run_demo(window):
-    print('\nRunning Demo with PyInvisibleGUI using loaded settings:')
+    print('\nRunning Demo with PySimpleNoGUI using loaded settings:')
     for key in SETTINGS_KEYS_TO_ELEMENT_KEYS:
         print(f"{key}: {window[SETTINGS_KEYS_TO_ELEMENT_KEYS[key]].get()}")
     print('\nFinished!')
