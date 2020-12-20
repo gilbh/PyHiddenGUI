@@ -68,12 +68,14 @@ This works for multiple elements in a sequence. This means that the first elemen
 ## To Do
 Right now the constants used in Tkinter and PySimpleGUI are statically defined. In order to keep up with future changes, it is desirable to add a dynamic import of these definitions: on first run, these will be downloaded from GitHub and written locally.
 
-Another improvement would be to first use a parser and tokenize the code in order to locate all the uses of `sg` in the text in order to extract the specific calls to **PySimpleGUI**. This would be the most efficient way for handling **all calls** to **PySimpleGUI**. I did not look into parsing the text, but might do this in the future.
+Another improvement would be to first use a parser and tokenize the code in order to locate all the uses of `sg` in the text in order to extract the specific calls to **PySimpleGUI**. This would be the most efficient way for handling **all calls** to **PySimpleGUI**. I did not look into parsing the code, but might do this in the future.
 
 ## Issues and Features
 The most common issue that might come up when running **PySimpleNoGUI** for the first time is having the code break because of unknown function calls and elements. The reason for this is that **PySimpleGUI** uses multiple names for common functions and elements, some of which are not yet included in **PySimpleNoGUI**.
 
-It is very easy to fix such breaks because adding a function/element/constant is easy: just add the missing item to the respective tuples: either `empty_func_list`, `empty_consts_list `, or `elements_list`. Note that because different elements have specific behaviors, I creates `elements_aliases`, which is a dictionary that matches additional names to already existing elements (e.g., `Input` is just another alias for `InputText`).
+It is very easy to fix such breaks: just add the missing item to the respective tuples, either `empty_func_list`, `empty_consts_list `, or `elements_list`.
+
+Note that because different elements have specific behaviors, I creates `elements_aliases`, which is a dictionary that matches additional names to already existing elements (e.g., `Input` is just another alias for `InputText`).
 
 Or you can write me about adding/fixing something.
 
