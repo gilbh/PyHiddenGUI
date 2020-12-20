@@ -7,7 +7,7 @@ Project start date: Thurs 11/19/2020
 
 A GUI-less mockup for PySimpleGUI/MySimpleGUI
 
-Version: 0.1.13
+Version: 0.13.1
 
 Check out project:
 https://github.com/gilbh/PySimpleNoGUI

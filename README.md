@@ -50,12 +50,12 @@ terminal_mode = is_raspbian()
 In this example, the code automatically sets `terminal_mode` to True if running in Raspberry Pi, and the code will run without **PySimpleGUI** and without generating costly GUI elements. (Obviously RPi can run GUI, but you can save a lot of ram/cpu resources by running apps as GUI-less. It will also run on a RPi Lite without any GUI libraries installed).
 
 ### Loading preconfigured settings
-You would probably want to have some control over the values of the GUI.
+You would probably want to have some control over the values of the GUI elements.
 
-The way to do this is with the save/load settings routines. Check out [example](https://pysimplegui.readthedocs.io/en/latest/cookbook/#recipe-save-and-load-program-settings) in the **PySimpleGUI Cookbook** or the [Demo.py](https://github.com/gilbh/PySimpleNoGUI/blob/main/Demo.py) file included here.
+The way to do this is with the save/load settings routines. Check out [example](https://pysimplegui.readthedocs.io/en/latest/cookbook/#recipe-save-and-load-program-settings) in the **PySimpleGUI Cookbook** or the [Demo.py](https://github.com/gilbh/PySimpleNoGUI/blob/main/Demo.py) file included in this repository.
 
 
-### Activating your code without GUI
+### Activating your code automatically without GUI
 In some cases, you would need to emulate clicking a button element in the window in order to activate the main routine in your program. For this, add the keyword parameter `metadata='auto_activate'` in the element creation, such as here:
 <pre>
 sg.Button('Run', key='button_key', <i>metadata='auto_activate'</i>)
