@@ -69,6 +69,10 @@ class ElementObject:
         if new_val:
             self.ele_val = new_val
             if self.ele_type == 'Multiline':
+                # remove last newline to avoide doube spacing between outputs.
+                # not using rstrip() so not to remove additional new lines.
+                if new_val[-1:] == '\n':
+                    new_val = new_val[:-1]
                 ps(f"{self.ele_key}: {new_val}")
 
         return None
