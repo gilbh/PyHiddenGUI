@@ -7,8 +7,10 @@ Project start date: Thurs 11/19/2020
 
 A GUI-less mockup for PySimpleGUI/MySimpleGUI
 
-Notes:
-    There is no treatment for layout. Elements are recorded in their intialization only.
+Version: 0.1.13
+
+Check out project:
+https://github.com/gilbh/PySimpleNoGUI
 """
 
 from sys import exit, argv
